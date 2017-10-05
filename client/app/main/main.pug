@@ -1,0 +1,22 @@
+header#banner.hero-unit
+  .container
+    h1 'Allo, 'Allo!
+    p.lead Kick-start your next web app with Angular Fullstack
+    img(src='assets/images/yeoman.png', alt='I\'m Yeoman')
+
+.container
+  .row
+    .col-lg-12
+      h1.page-header Features:
+      ul.nav.nav-tabs.nav-stacked.col-md-4.col-lg-4.col-sm-6(ng-repeat='post in $ctrl.awesomePosts')
+        li
+          a(href='#', uib-tooltip='{{post.info}}')
+            | {{post.name}}
+            button.close(type='button', ng-click='$ctrl.deletePost(post)') &times;
+
+  form.post-form
+    label Syncs in realtime across clients
+    p.input-group
+      input.form-control(type='text', placeholder='Add a new post here.', ng-model='$ctrl.newPost')
+      span.input-group-btn
+        button.btn.btn-primary(type='submit', ng-click='$ctrl.addPost()') Add New
