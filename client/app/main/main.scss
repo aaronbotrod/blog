@@ -1,10 +1,5 @@
-.thing-form {
-  margin: 20px 0;
-}
-
 #banner {
-  border-bottom: none;
-  margin-top: -20px;
+  position: relative;
 }
 
 #banner h1 {
@@ -13,15 +8,24 @@
   letter-spacing: -1px;
 }
 
-.hero-unit {
-  position: relative;
-  padding: 30px 15px;
-  color: #F5F5F5;
+.banner-title {
+  position: absolute;
+  color:white;
+  width: 100%;
   text-align: center;
-  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
-  background: #4393B9;
+  top: 200px;
 }
-
 .navbar-text {
   margin-left: 15px;
+}
+
+.contrast-mask {
+  width: 100%;
+  height: 100%;
+  background: rgba(1,1,1,0.4);
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  left: 0px;
+  bottom: 0px;
 }

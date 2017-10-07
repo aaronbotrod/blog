@@ -25,11 +25,13 @@ export class MainController {
   }
 
   addPost() {
-    if(this.newPost) {
+    if(this.postTitle && this.postContent) {
       this.$http.post('/api/posts', {
-        name: this.newPost
+        title: this.postTitle,
+        content: this.postContent
       });
-      this.newPost = '';
+      this.postTitle = '';
+      this.postContent = '';
     }
   }
 

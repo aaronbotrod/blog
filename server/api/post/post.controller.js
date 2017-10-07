@@ -57,9 +57,12 @@ function handleEntityNotFound(res) {
   };
 }
 
-function handleError(res, statusCode) {
+function handleError(res, statusCode, err) {
   statusCode = statusCode || 500;
   return function(err) {
+    if(err.message) {
+      return res.status(422).send({error: {message: err.message}});
+    }
     res.status(statusCode).send(err);
   };
 }
@@ -81,6 +84,7 @@ export function show(req, res) {
 
 // Creates a new Post in the DB
 export function create(req, res) {
+  req.body.username = req.user.username;
   return Post.create(req.body)
     .then(respondWithResult(res, 201))
     .catch(handleError(res));

@@ -23,7 +23,7 @@ export default class SignupController {
 
     if(form.$valid) {
       return this.Auth.createUser({
-        name: this.user.name,
+        username: this.user.username,
         email: this.user.email,
         password: this.user.password
       })

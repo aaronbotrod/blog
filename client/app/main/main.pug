@@ -1,22 +1,22 @@
-header#banner.hero-unit
-  .container
-    h1 'Allo, 'Allo!
-    p.lead Kick-start your next web app with Angular Fullstack
-    img(src='assets/images/yeoman.png', alt='I\'m Yeoman')
+header#banner
+  .bg-image-container
+    .contrast-mask
+    img(src='/assets/images/magic-leap-whale-jump.jpg', alt='Magic Leap Whale Jump')
+  .banner-title
+    h1 Magic Leap
+    p.lead Welcome to the future
 
 .container
-  .row
-    .col-lg-12
-      h1.page-header Features:
-      ul.nav.nav-tabs.nav-stacked.col-md-4.col-lg-4.col-sm-6(ng-repeat='post in $ctrl.awesomePosts')
-        li
-          a(href='#', uib-tooltip='{{post.info}}')
-            | {{post.name}}
-            button.close(type='button', ng-click='$ctrl.deletePost(post)') &times;
+  .row(ng-repeat='post in $ctrl.awesomePosts')
+    a(href='#', uib-tooltip='{{post.title}}')
+      | {{post.title}}
+    div {{post.content}}
+    hr
 
   form.post-form
-    label Syncs in realtime across clients
+    label Submit a post
     p.input-group
-      input.form-control(type='text', placeholder='Add a new post here.', ng-model='$ctrl.newPost')
+      input.form-control(type='text', placeholder='Title', ng-model='$ctrl.postTitle')
+      input.form-control(type='text', placeholder='Content', ng-model='$ctrl.postContent')
       span.input-group-btn
         button.btn.btn-primary(type='submit', ng-click='$ctrl.addPost()') Add New
