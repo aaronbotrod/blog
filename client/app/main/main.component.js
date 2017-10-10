@@ -23,21 +23,6 @@ export class MainController {
         this.socket.syncUpdates('post', this.awesomePosts);
       });
   }
-
-  addPost() {
-    if(this.postTitle && this.postContent) {
-      this.$http.post('/api/posts', {
-        title: this.postTitle,
-        content: this.postContent
-      });
-      this.postTitle = '';
-      this.postContent = '';
-    }
-  }
-
-  deletePost(post) {
-    this.$http.delete(`/api/posts/${post._id}`);
-  }
 }
 
 export default angular.module('magicLeapBlogApp.main', [uiRouter])

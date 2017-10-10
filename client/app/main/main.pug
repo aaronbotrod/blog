@@ -8,7 +8,7 @@ header#banner
 
 .container
   .row(ng-repeat='post in $ctrl.awesomePosts')
-    a(href='#', uib-tooltip='{{post.title}}')
+    a(ui-sref='post({id: post._id})', uib-tooltip='{{post.title}}')
       | {{post.title}}
     div {{post.content}}
     hr

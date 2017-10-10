@@ -1,0 +1,30 @@
+header#banner(data-ng-if="!postCtrl.isEditing")
+  .bg-image-container
+    .contrast-mask
+    img#banner-img(src='/assets/images/magic-leap-whale-jump.jpg', alt='Magic Leap Whale Jump')
+  .banner-title
+    h1 {{postCtrl.post.title}}
+    .lead Posted by {{postCtrl.post.username}} on {{postCtrl.post.datetime | date}}
+
+.container
+  .row(data-ng-if="::postCtrl.isOwner")
+    button.btn.btn-secondary(ng-click='postCtrl.editPost()') Edit Post
+    button.btn.btn-primary(ng-click='postCtrl.removePost()') Remove Post
+  .row
+    div {{postCtrl.post.content}}
+
+form.comment-form(data-ng-if="!postCtrl.isEditing")
+    label Add Comment
+    p.input-group
+        input.form-control(type='text', placeholder='Comment', ng-model='postCtrl.comment')
+        span.input-group-btn
+        button.btn.btn-primary(type='submit', ng-click='postCtrl.postComment(postCtrl.post._id, postCtrl.comment)') Add New Comment
+
+
+form.post-form(data-ng-if="postCtrl.isEditing")
+    label Submit a post
+    p.input-group
+        input.form-control(type='text', placeholder='Title', ng-model='$ctrl.postTitle')
+        input.form-control(type='text', placeholder='Content', ng-model='$ctrl.postContent')
+        span.input-group-btn
+        button.btn.btn-primary(type='submit', ng-click='$ctrl.upsertPost()') Add New

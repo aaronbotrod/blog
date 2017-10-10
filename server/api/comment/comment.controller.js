@@ -1,17 +1,17 @@
 /**
  * Using Rails-like standard naming convention for endpoints.
- * GET     /api/posts              ->  index
- * POST    /api/posts              ->  create
- * GET     /api/posts/:id          ->  show
- * PUT     /api/posts/:id          ->  upsert
- * PATCH   /api/posts/:id          ->  patch
- * DELETE  /api/posts/:id          ->  destroy
+ * GET     /api/comments              ->  index
+ * POST    /api/comments              ->  create
+ * GET     /api/comments/:id          ->  show
+ * PUT     /api/comments/:id          ->  upsert
+ * PATCH   /api/comments/:id          ->  patch
+ * DELETE  /api/comments/:id          ->  destroy
  */
 
 'use strict';
 
 import jsonpatch from 'fast-json-patch';
-import Post from './post.model';
+import Comment from './comment.model';
 
 function respondWithResult(res, statusCode) {
   statusCode = statusCode || 200;
@@ -57,7 +57,7 @@ function handleEntityNotFound(res) {
   };
 }
 
-function handleError(res, statusCode, err) {
+function handleError(res, statusCode) {
   statusCode = statusCode || 500;
   return function(err) {
     if(err.message) {
@@ -67,57 +67,58 @@ function handleError(res, statusCode, err) {
   };
 }
 
-// Gets a list of Posts
+// Gets a list of Comments
 export function index(req, res) {
-  return Post.find().exec()
+  return Comment.find().exec()
     .then(respondWithResult(res))
     .catch(handleError(res));
 }
 
-// Gets a single Post from the DB
+// Gets a single Comment from the DB
 export function show(req, res) {
-  return Post.findById(req.params.id).exec()
+  return Comment.findById(req.params.id).exec()
     .then(handleEntityNotFound(res))
     .then(respondWithResult(res))
     .catch(handleError(res));
 }
 
-// Creates a new Post in the DB
+// Creates a new Comment in the DB
 export function create(req, res) {
-  let post = req.body;
-  post.user = req.user;
-  post.username = req.user.username;
-  return Post.create(req.body)
+  let comment = req.body;
+  comment.user = req.user._id;
+  comment.post = req.params.postId;
+  comment.username = req.user.username;
+  return Comment.create(comment)
     .then(respondWithResult(res, 201))
     .catch(handleError(res));
 }
 
-// Upserts the given Post in the DB at the specified ID
+// Upserts the given Comment in the DB at the specified ID
 export function upsert(req, res) {
   if(req.body._id) {
     Reflect.deleteProperty(req.body, '_id');
   }
-  return Post.findOneAndUpdate({_id: req.params.id}, req.body, {new: true, upsert: true, setDefaultsOnInsert: true, runValidators: true}).exec()
+  return Comment.findOneAndUpdate({_id: req.params.id}, req.body, {new: true, upsert: true, setDefaultsOnInsert: true, runValidators: true}).exec()
 
     .then(respondWithResult(res))
     .catch(handleError(res));
 }
 
-// Updates an existing Post in the DB
+// Updates an existing Comment in the DB
 export function patch(req, res) {
   if(req.body._id) {
     Reflect.deleteProperty(req.body, '_id');
   }
-  return Post.findById(req.params.id).exec()
+  return Comment.findById(req.params.id).exec()
     .then(handleEntityNotFound(res))
     .then(patchUpdates(req.body))
     .then(respondWithResult(res))
     .catch(handleError(res));
 }
 
-// Deletes a Post from the DB
+// Deletes a Comment from the DB
 export function destroy(req, res) {
-  return Post.findById(req.params.id).exec()
+  return Comment.findById(req.params.id).exec()
     .then(handleEntityNotFound(res))
     .then(removeEntity(res))
     .catch(handleError(res));
