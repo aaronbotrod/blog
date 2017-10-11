@@ -32,12 +32,18 @@ export class PostComponent {
 
   upsertPost() {
     if(this.post.title && this.post.content) {
-      this.$http.post('/api/posts', {
+      let postFix = "";
+      if(this.post._id) {
+        postFix = "/"+this.post._id;
+      }
+      this.$http.put('/api/posts'+postFix, {
         title: this.post.title,
         content: this.post.content
+      }).then((response)=>{
+        this.post = response.data;
+        this.isEditing = false;
       });
-      this.post.title = '';
-      this.post.content = '';
+
     }
   }
 

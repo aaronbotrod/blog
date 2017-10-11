@@ -13,3 +13,22 @@
 .zipper.ng-leave.ng-leave-active {
   opacity:0;
 }
+
+.post {
+  .content {
+    font-size: 20px;
+  }
+}
+
+.comment {
+  .username {
+    font-size: 28px;
+    font-weight: bold;
+  }
+  .datetime {
+    float: right;
+    font-style: italic;
+    font-size: 12px;
+    font-family: Lora,'Times New Roman',serif;
+  }
+}

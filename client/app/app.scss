@@ -17,6 +17,16 @@ $fa-font-path: '/assets/fonts/font-awesome/';
   padding: 0.2em 0;
 }
 
+$aqua-color: #0085a1;
+
+.margin-md {
+  margin: 10px;
+}
+::selection { 
+  background: $aqua-color; 
+  color: white;
+}
+
 // Component styles are injected through gulp
 /* inject:scss */
 @import 'admin/admin';
