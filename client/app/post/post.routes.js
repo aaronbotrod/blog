@@ -27,16 +27,17 @@ export class PostComponent {
     this.$http.post(`/api/posts/${postId}/comments`, {
       content: content
     });
+    this.comments.content = '';
   }
 
   upsertPost() {
-    if(this.postTitle && this.postContent) {
+    if(this.post.title && this.post.content) {
       this.$http.post('/api/posts', {
-        title: this.postTitle,
-        content: this.postContent
+        title: this.post.title,
+        content: this.post.content
       });
-      this.postTitle = '';
-      this.postContent = '';
+      this.post.title = '';
+      this.post.content = '';
     }
   }
 

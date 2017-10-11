@@ -10,20 +10,24 @@ div#navbar-static-top.navbar
 
     div#navbar-main.navbar-collapse.collapse(uib-collapse='$ctrl.isCollapsed')
       ul.nav.navbar-nav
-        li(ng-show='$ctrl.isAdmin()', ui-sref-active='active')
+        li(ng-show='$ctrl.isAdmin()')
           a(ui-sref='admin') Admin
 
       ul.nav.navbar-nav.navbar-right
-        li(ng-hide='$ctrl.isLoggedIn()', ui-sref-active='active')
+        li(ng-hide='$ctrl.isLoggedIn()')
           a(ui-sref='signup') Sign up
 
-        li(ng-hide='$ctrl.isLoggedIn()', ui-sref-active='active')
+        li(ng-hide='$ctrl.isLoggedIn()')
           a(ui-sref='login') Login
 
         li(ng-show='$ctrl.isLoggedIn()')
           p.navbar-text Hello {{ $ctrl.getCurrentUser().username }}
 
-        li(ng-show='$ctrl.isLoggedIn()', ui-sref-active='active')
+        li(ng-show='$ctrl.isLoggedIn()')
+          a(ui-sref='post')
+            span.glyphicon.glyphicon-plus
+
+        li(ng-show='$ctrl.isLoggedIn()')
           a(ui-sref='settings')
             span.glyphicon.glyphicon-cog
 

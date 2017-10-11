@@ -15,10 +15,13 @@
 .banner-title {
   position: absolute;
   color:white;
-  width: 100%;
-  text-align: center;
   top: 50%;
-  transform: translateY(-50%);
+  left: 50%;
+  transform: translate(-50%, -50%);
+  h2 {
+    font-size: 20px;
+    font-weight: 200;
+  }
 }
 .navbar-text {
   margin-left: 15px;
@@ -33,4 +36,39 @@
   right: 0px;
   left: 0px;
   bottom: 0px;
+}
+
+.container .post {
+  h2 {
+    font-weight: 800;
+    font-size: 36px;
+    font-family: 'Open Sans','Helvetica Neue',Helvetica,Arial,sans-serif;
+    color: black;
+  }
+
+  h3 {
+    font-size: 28px;
+    color: black;
+    font-weight: 200;
+    overflow:hidden;
+    text-overflow: ellipsis;
+    font-family: 'Open Sans','Helvetica Neue',Helvetica,Arial,sans-serif;
+    white-space: nowrap;
+  }
+
+  a:hover, a:active, a:focus {
+    text-decoration: none;
+    h2, h3, p {
+      color: #0085a1;
+    }
+  }
+}
+p.meta {
+  font-style: italic;
+  font-size: 18px;
+  font-family: Lora,'Times New Roman',serif;
+}
+.center {
+  float:inherit;
+  margin: 0px auto;
 }

@@ -11,6 +11,7 @@ export class MainController {
     this.$http = $http;
     this.socket = socket;
   }
+  
   $onDestroy() {
     this.socket.unsyncUpdates('post');
   }

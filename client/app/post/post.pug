@@ -2,31 +2,37 @@ header#banner
   .bg-image-container
     .contrast-mask
     img#banner-img(src='/assets/images/magic-leap-whale-jump.jpg', alt='Magic Leap Whale Jump')
-  .banner-title
-    h1 {{$ctrl.post.title}}
-    .lead Posted by {{$ctrl.post.username}} on {{$ctrl.post.datetime | date}}
+  .container
+    .row
+      .banner-title.center.col-lg-6.col-md-8
+        h1 {{$ctrl.post.title}}
+        h2 Posted by {{$ctrl.post.username}} on {{$ctrl.post.datetime | date}}
+        p.text-light.meta Posted by {{$ctrl.post.username}} on {{$ctrl.post.datetime | date}}
 
 .container
-  .row(data-ng-if="::$ctrl.isOwner")
-    button.btn.btn-secondary(ng-click='$ctrl.editPost()') Edit Post
-    button.btn.btn-primary(ng-click='$ctrl.removePost()') Remove Post
   .row
-    div {{$ctrl.post.content}}
+    .center.col-lg-6.col-md-8(data-ng-if="::$ctrl.isOwner")
+      button.btn.btn-secondary(ng-click='$ctrl.editPost()') Edit Post
+      button.btn.btn-primary(ng-click='$ctrl.removePost()') Remove Post
+  .row
+    .center.col-lg-6.col-md-8 {{$ctrl.post.content}}
 hr
-section(data-ng-if="!$ctrl.isEditing")
-  form.comment-form
-      label Add Comment
-      p.input-group
-          input.form-control(type='text', placeholder='Comment', ng-model='$ctrl.comment')
-          span.input-group-btn
-          button.btn.btn-primary(type='submit', ng-click='$ctrl.postComment($ctrl.post._id, $ctrl.comment)') Add New Comment
-  .comments
-    .comment.zipper(data-ng-animate="'animate'" data-ng-repeat='comment in $ctrl.comments | orderBy:datetime:true')
-      div
-        b  {{comment.username}}
-        span(am-time-ago="comment.datetime")
-        
-      div {{comment.content}}
+section.container(data-ng-if="!$ctrl.isEditing")
+  .row
+    form.comment-form.center.col-lg-6.col-md-8
+        label Add Comment
+        p.input-group
+            input.form-control(type='text', placeholder='Comment', ng-model='$ctrl.comment')
+            span.input-group-btn
+            button.btn.btn-primary(type='submit', ng-click='$ctrl.postComment($ctrl.post._id, $ctrl.comment)') Add New Comment
+  .row
+    .comments.center.col-lg-6.col-md-8
+        .comment.zipper.center.col-lg-6.col-md-8(data-ng-animate="'animate'" data-ng-repeat='comment in $ctrl.comments | orderBy:datetime:true')
+          div
+            b  {{comment.username}}
+            span(am-time-ago="comment.datetime")
+            
+          div {{comment.content}}
 
 form.post-form(data-ng-if="$ctrl.isEditing")
     label Submit a post
