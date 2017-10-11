@@ -5,6 +5,7 @@
 #banner-img {
   width: 100vw;
 }
+
 #banner h1 {
   font-size: 60px;
   line-height: 1;
@@ -16,7 +17,8 @@
   color:white;
   width: 100%;
   text-align: center;
-  top: 200px;
+  top: 50%;
+  transform: translateY(-50%);
 }
 .navbar-text {
   margin-left: 15px;

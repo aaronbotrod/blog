@@ -2,11 +2,21 @@
 import routes from './post.routes';
 
 export class PostComponent {
-  constructor(post, $http) {
+  constructor(post, comments, $http, socket) {
     "ngInject";
     this.post = post;
     this.$http = $http;
     this.isOwner = true;
+    this.socket = socket;
+    this.comments = comments;
+  }
+
+ $onDestroy() {
+    this.socket.unsyncUpdates('comment');
+  }
+
+  $onInit() {
+    this.socket.syncUpdates('comment', this.comments);
   }
 
   editPost() {
@@ -30,7 +40,7 @@ export class PostComponent {
     }
   }
 
-  deletePost(post) {
+  removePost(post) {
     this.$http.delete(`/api/posts/${this.post._id}`);
   }
 }
@@ -42,10 +52,18 @@ export default function($stateProvider) {
       url: '/posts/:id',
       template: require('./post.pug'),
       controller: PostComponent,
-      controllerAs: 'postCtrl',
+      controllerAs: '$ctrl',
       resolve: {
         post: ($http, $stateParams)=> {
           return $http.get('/api/posts/'+$stateParams.id).then((response)=> {
+            return response.data;
+          },
+          (error)=> {
+            return null;
+          });
+        },
+        comments: ($http, $stateParams)=> {
+          return $http.get('/api/posts/'+$stateParams.id+'/comments').then((response)=> {
             return response.data;
           },
           (error)=> {

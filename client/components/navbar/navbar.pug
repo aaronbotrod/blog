@@ -1,4 +1,4 @@
-div.navbar.navbar-static-top
+div#navbar-static-top.navbar
   div.container
     div.navbar-header
       button.navbar-toggle(type='button', ng-click='$ctrl.isCollapsed = !$ctrl.isCollapsed')
@@ -21,7 +21,7 @@ div.navbar.navbar-static-top
           a(ui-sref='login') Login
 
         li(ng-show='$ctrl.isLoggedIn()')
-          p.navbar-text Hello {{ $ctrl.getCurrentUser().name }}
+          p.navbar-text Hello {{ $ctrl.getCurrentUser().username }}
 
         li(ng-show='$ctrl.isLoggedIn()', ui-sref-active='active')
           a(ui-sref='settings')

@@ -1,13 +1,13 @@
 header#banner
   .bg-image-container
     .contrast-mask
-    img(src='/assets/images/magic-leap-whale-jump.jpg', alt='Magic Leap Whale Jump')
+    img#banner-img(src='/assets/images/magic-leap-whale-jump.jpg', alt='Magic Leap Whale Jump')
   .banner-title
     h1 Magic Leap
     p.lead Welcome to the future
 
 .container
-  .row(ng-repeat='post in $ctrl.awesomePosts')
+  .row(ng-repeat='post in $ctrl.posts')
     a(ui-sref='post({id: post._id})', uib-tooltip='{{post.title}}')
       | {{post.title}}
     div {{post.content}}

@@ -10,17 +10,16 @@ export class MainController {
   constructor($http, $scope, socket) {
     this.$http = $http;
     this.socket = socket;
-
-    $scope.$on('$destroy', function() {
-      socket.unsyncUpdates('post');
-    });
+  }
+  $onDestroy() {
+    this.socket.unsyncUpdates('post');
   }
 
   $onInit() {
     this.$http.get('/api/posts')
       .then(response => {
-        this.awesomePosts = response.data;
-        this.socket.syncUpdates('post', this.awesomePosts);
+        this.posts = response.data;
+        this.socket.syncUpdates('post', this.posts);
       });
   }
 }

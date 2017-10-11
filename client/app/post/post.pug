@@ -1,30 +1,37 @@
-header#banner(data-ng-if="!postCtrl.isEditing")
+header#banner
   .bg-image-container
     .contrast-mask
     img#banner-img(src='/assets/images/magic-leap-whale-jump.jpg', alt='Magic Leap Whale Jump')
   .banner-title
-    h1 {{postCtrl.post.title}}
-    .lead Posted by {{postCtrl.post.username}} on {{postCtrl.post.datetime | date}}
+    h1 {{$ctrl.post.title}}
+    .lead Posted by {{$ctrl.post.username}} on {{$ctrl.post.datetime | date}}
 
 .container
-  .row(data-ng-if="::postCtrl.isOwner")
-    button.btn.btn-secondary(ng-click='postCtrl.editPost()') Edit Post
-    button.btn.btn-primary(ng-click='postCtrl.removePost()') Remove Post
+  .row(data-ng-if="::$ctrl.isOwner")
+    button.btn.btn-secondary(ng-click='$ctrl.editPost()') Edit Post
+    button.btn.btn-primary(ng-click='$ctrl.removePost()') Remove Post
   .row
-    div {{postCtrl.post.content}}
+    div {{$ctrl.post.content}}
+hr
+section(data-ng-if="!$ctrl.isEditing")
+  form.comment-form
+      label Add Comment
+      p.input-group
+          input.form-control(type='text', placeholder='Comment', ng-model='$ctrl.comment')
+          span.input-group-btn
+          button.btn.btn-primary(type='submit', ng-click='$ctrl.postComment($ctrl.post._id, $ctrl.comment)') Add New Comment
+  .comments
+    .comment.zipper(data-ng-animate="'animate'" data-ng-repeat='comment in $ctrl.comments | orderBy:datetime:true')
+      div
+        b  {{comment.username}}
+        span(am-time-ago="comment.datetime")
+        
+      div {{comment.content}}
 
-form.comment-form(data-ng-if="!postCtrl.isEditing")
-    label Add Comment
-    p.input-group
-        input.form-control(type='text', placeholder='Comment', ng-model='postCtrl.comment')
-        span.input-group-btn
-        button.btn.btn-primary(type='submit', ng-click='postCtrl.postComment(postCtrl.post._id, postCtrl.comment)') Add New Comment
-
-
-form.post-form(data-ng-if="postCtrl.isEditing")
+form.post-form(data-ng-if="$ctrl.isEditing")
     label Submit a post
     p.input-group
-        input.form-control(type='text', placeholder='Title', ng-model='$ctrl.postTitle')
-        input.form-control(type='text', placeholder='Content', ng-model='$ctrl.postContent')
+        input.form-control(type='text', placeholder='Title', ng-model='$ctrl.post.title')
+        input.form-control(type='text', placeholder='Content', ng-model='$ctrl.post.content')
         span.input-group-btn
-        button.btn.btn-primary(type='submit', ng-click='$ctrl.upsertPost()') Add New
+        button.btn.btn-primary(type='submit', ng-click='$ctrl.upsertPost()') Submit
