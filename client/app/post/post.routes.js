@@ -1,7 +1,6 @@
 'use strict';
 import routes from './post.routes';
 import PostController from './post.controller';
-console.log(PostController);
 export default function($stateProvider) {
   'ngInject';
   $stateProvider
