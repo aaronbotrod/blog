@@ -1,5 +1,8 @@
 # Magic Leap Blog
 
+## Demo
+[Demo Blog Can Be Found Here](https://magic-leap-blog-demo.herokuapp.com/)
+
 ## Summary
 
 ### Planning
