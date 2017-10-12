@@ -1,45 +1,59 @@
-header#banner
+header#banner.banner-img
   .bg-image-container
     .contrast-mask
-    img#banner-img(src='/assets/images/magic-leap-whale-jump.jpg', alt='Magic Leap Whale Jump')
   .container
     .row
-      .banner-title.center.col-lg-6.col-md-8
+      .banner-title(data-ng-if="$ctrl.post._id")
         h1 {{$ctrl.post.title}}
         h2 Posted by {{$ctrl.post.username}} on {{$ctrl.post.datetime | date}}
-        p.text-light.meta Posted by {{$ctrl.post.username}} on {{$ctrl.post.datetime | date}}
+        p.meta Posted by {{$ctrl.post.username}} on {{$ctrl.post.datetime | date}}
+      .banner-title(data-ng-if="!$ctrl.post._id")
+        h1 New Post
 
 .container
   .row
     .center.col-lg-6.col-md-8(data-ng-if="::$ctrl.isOwner")
       button.btn.btn-primary.margin-md(ng-click='$ctrl.editPost()') Edit
       button.pull-right.btn.btn-danger.margin-md(ng-click='$ctrl.removePost()') Delete
+      
   .row
     .center.col-lg-6.col-md-8.post(data-ng-if="!$ctrl.isEditing")
-      .content {{$ctrl.post.content}}
+      .content(ng-bind-html="$ctrl.post.content")
       hr
 section.container(data-ng-if="!$ctrl.isEditing")
   .row
     form.comment-form.center.col-lg-6.col-md-8
-        label Add Comment
-        p.input-group
-            input.form-control(type='text', placeholder='Comment', ng-model='$ctrl.comment')
-            div
-              span.input-group-btn
-              button.btn.btn-primary(type='submit', ng-click='$ctrl.postComment($ctrl.post._id, $ctrl.comment)') Submit
+        h4 Add Comment
+        text-angular(placeholder='Enter Comment', ng-model='$ctrl.comment.content')
+        div
+          button.margin-md.btn.btn-primary(type='submit', ng-click='$ctrl.postComment()') Submit
   .row
     .comments.center.col-lg-6.col-md-8
-        .comment.zipper(data-ng-animate="'animate'" data-ng-repeat='comment in $ctrl.comments | orderBy:datetime:true')
-          span.username {{comment.username}}
-          .content {{comment.content}}
-          .text-secondary.datetime
-            span(am-time-ago="comment.datetime")
-          hr
+        .comment-container.zipper(data-ng-animate="'animate'" data-ng-repeat='comment in $ctrl.comments | orderBy:datetime:true')
+          .comment(data-ng-if="!comment.editing")
+            .delete.action.pull-right(data-ng-if="::$ctrl.ownsComment(comment.user)" data-ng-click="::$ctrl.removeComment(comment._id)")
+              span.glyphicon.glyphicon-remove
+            .edit.action.pull-right(data-ng-if="::$ctrl.ownsComment(comment.user)" data-ng-click="comment.editing = true")
+              span.glyphicon.glyphicon-edit
+            .username {{comment.username}}
+            .content(ng-bind-html="::comment.content")
+            .text-secondary.datetime
+              span(am-time-ago="comment.datetime")
+          .comment-editor.zipper(data-ng-if="comment.editing")
+            text-angular(ng-model='comment.content')
+            div
+              button.margin-md.btn.btn-primary(type='submit', ng-click='$ctrl.updateComment(comment)') Submit    
+              button.btn.btn-secondary.margin-left-sm(data-ng-click='comment.editing = false') Cancel    
 
-form.post-form(data-ng-if="$ctrl.isEditing")
-    label Submit a post
-    p.input-group
-        input.form-control(type='text', placeholder='Title', ng-model='$ctrl.post.title')
-        input.form-control(type='text', placeholder='Content', ng-model='$ctrl.post.content')
-        span.input-group-btn
-        button.btn.btn-primary(type='submit', ng-click='$ctrl.upsertPost()') Submit
+form.container.post-form(data-ng-if="$ctrl.isEditing")
+  .row
+    .center.col-lg-6.col-md-8
+      h4 Submit a post
+      div
+        label Title
+        input.width-100(type='text', placeholder='Title', ng-model='$ctrl.post.title')
+      div
+        label Content
+        text-angular(placeholder='Enter Content', ng-model='$ctrl.post.content')
+        div
+          button.margin-md.btn.btn-primary(type='submit', ng-click='$ctrl.upsertPost()') Submit

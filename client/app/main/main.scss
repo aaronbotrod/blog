@@ -1,15 +1,19 @@
 #banner {
   position: relative;
+  min-height: 570px;
 }
 
-#banner-img {
-  width: 100vw;
+.banner-img {
+  background: no-repeat center center;
+  background-size: cover;
+  background-image: url('/assets/images/magic-leap-whale-jump.jpg');
 }
 
 #banner h1 {
   font-size: 60px;
   line-height: 1;
   letter-spacing: -1px;
+  font-weight: 800;
 }
 
 .banner-title {
@@ -21,6 +25,9 @@
   h2 {
     font-size: 20px;
     font-weight: 200;
+  }
+  p.meta {
+    color: white;
   }
 }
 .navbar-text {
@@ -50,7 +57,8 @@
     font-size: 28px;
     color: black;
     font-weight: 200;
-    overflow:hidden;
+    overflow-x:hidden;
+    padding: 4px 0px;
     text-overflow: ellipsis;
     font-family: 'Open Sans','Helvetica Neue',Helvetica,Arial,sans-serif;
     white-space: nowrap;
@@ -58,14 +66,15 @@
 
   a:hover, a:active, a:focus {
     text-decoration: none;
-    h2, h3, p {
+    h2, h3, .meta {
       color: $aqua-color;
     }
   }
 }
-p.meta {
+.meta {
   font-style: italic;
   font-size: 18px;
+  color: #777;
   font-family: Lora,'Times New Roman',serif;
 }
 .center {

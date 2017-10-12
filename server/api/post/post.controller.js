@@ -97,20 +97,8 @@ export function upsert(req, res) {
   if(req.body._id) {
     Reflect.deleteProperty(req.body, '_id');
   }
-  return Post.findOneAndUpdate({_id: req.params.id}, req.body, {new: true, upsert: true, setDefaultsOnInsert: true, runValidators: true}).exec()
+  return Post.findOneAndUpdate({_id: req.params.id, user: req.user._id}, req.body, {new: true, upsert: true, setDefaultsOnInsert: true, runValidators: true}).exec()
 
-    .then(respondWithResult(res))
-    .catch(handleError(res));
-}
-
-// Updates an existing Post in the DB
-export function patch(req, res) {
-  if(req.body._id) {
-    Reflect.deleteProperty(req.body, '_id');
-  }
-  return Post.findById(req.params.id).exec()
-    .then(handleEntityNotFound(res))
-    .then(patchUpdates(req.body))
     .then(respondWithResult(res))
     .catch(handleError(res));
 }

@@ -7,11 +7,12 @@ export class MainController {
   newPost = '';
 
   /*@ngInject*/
-  constructor($http, $scope, socket) {
+  constructor($http, $scope, socket, $compile) {
     this.$http = $http;
     this.socket = socket;
+    this.$compile = $compile;
   }
-  
+
   $onDestroy() {
     this.socket.unsyncUpdates('post');
   }
@@ -20,6 +21,10 @@ export class MainController {
     this.$http.get('/api/posts')
       .then(response => {
         this.posts = response.data;
+        this.posts.forEach((post) =>{
+          let element = this.$compile(post.content)(this);
+          post.subtitle = element[0].innerText;
+        });
         this.socket.syncUpdates('post', this.posts);
       });
   }

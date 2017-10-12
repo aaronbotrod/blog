@@ -4,8 +4,9 @@ import angular from 'angular';
 import ngAnimate from 'angular-animate';
 import ngCookies from 'angular-cookies';
 import ngResource from 'angular-resource';
-import ngSanitize from 'angular-sanitize';
 import ngMoment from 'angular-moment';
+import ngSanitize from 'textangular/dist/textAngular-sanitize.min';
+import textAngular from 'textAngular';
 
 import 'angular-socket-io';
 
@@ -30,7 +31,7 @@ import socket from '../components/socket/socket.service';
 
 import './app.scss';
 
-angular.module('magicLeapBlogApp', [ngMoment, ngAnimate, ngCookies, ngResource, ngSanitize, 'btford.socket-io', uiRouter,
+angular.module('magicLeapBlogApp', [ngMoment, ngAnimate, ngCookies, ngResource, textAngular, 'btford.socket-io', uiRouter,
   uiBootstrap, _Auth, account, admin, 'validation.match', navbar, footer, main, post, constants,
   socket, util
 ])
@@ -38,8 +39,13 @@ angular.module('magicLeapBlogApp', [ngMoment, ngAnimate, ngCookies, ngResource, 
   .run(function($rootScope, $location, Auth) {
     'ngInject';
     // Redirect to login if route requires auth and you're not logged in
-
+    var $navbar = angular.element(document.querySelector('navbar'));
     $rootScope.$on('$stateChangeStart', function(event, next) {
+      if(['main','post'].indexOf(next.name) === -1) {
+        $navbar.addClass('opaque');
+      } else {
+        $navbar.removeClass('opaque');
+      }
       Auth.isLoggedIn(function(loggedIn) {
         if(next.authenticate && !loggedIn) {
           $location.path('/login');

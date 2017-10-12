@@ -23,27 +23,14 @@ function respondWithResult(res, statusCode) {
   };
 }
 
-function patchUpdates(patches) {
-  return function(entity) {
-    try {
-      // eslint-disable-next-line prefer-reflect
-      jsonpatch.apply(entity, patches, /*validate*/ true);
-    } catch(err) {
-      return Promise.reject(err);
-    }
-
-    return entity.save();
-  };
-}
-
-function removeEntity(res) {
+function removeEntity(res, user) {
   return function(entity) {
     if(entity) {
       return entity.remove()
         .then(() => {
           res.status(204).end();
         });
-    }
+    } 
   };
 }
 
@@ -69,7 +56,7 @@ function handleError(res, statusCode) {
 
 // Gets a list of Comments
 export function index(req, res) {
-  return Comment.find().exec()
+  return Comment.find({post: req.params.postId}).exec()
     .then(respondWithResult(res))
     .catch(handleError(res));
 }
@@ -98,28 +85,17 @@ export function upsert(req, res) {
   if(req.body._id) {
     Reflect.deleteProperty(req.body, '_id');
   }
-  return Comment.findOneAndUpdate({_id: req.params.id}, req.body, {new: true, upsert: true, setDefaultsOnInsert: true, runValidators: true}).exec()
+  
+  return Comment.findOneAndUpdate({_id: req.params.id, user: req.user._id}, req.body, {new: true, upsert: true, setDefaultsOnInsert: true, runValidators: true}).exec()
 
-    .then(respondWithResult(res))
-    .catch(handleError(res));
-}
-
-// Updates an existing Comment in the DB
-export function patch(req, res) {
-  if(req.body._id) {
-    Reflect.deleteProperty(req.body, '_id');
-  }
-  return Comment.findById(req.params.id).exec()
-    .then(handleEntityNotFound(res))
-    .then(patchUpdates(req.body))
     .then(respondWithResult(res))
     .catch(handleError(res));
 }
 
 // Deletes a Comment from the DB
 export function destroy(req, res) {
-  return Comment.findById(req.params.id).exec()
+  return Comment.findOne({_id: req.params.id, user: req.user._id}).exec()
     .then(handleEntityNotFound(res))
-    .then(removeEntity(res))
+    .then(removeEntity(res, req.user))
     .catch(handleError(res));
 }

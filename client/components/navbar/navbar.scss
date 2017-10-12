@@ -7,7 +7,18 @@
     width: 100%;
     a, p{ 
         color: white;
-        &:hover, &:active {
+        &:hover, &:active, &:visited, &:focus {
+            background: transparent;
+        }
+    }
+}
+
+.opaque #navbar-static-top {
+    position: relative;
+    
+    a, p{ 
+        color: black;
+        &:hover, &:active, &:visited, &:focus {
             background: transparent;
         }
     }

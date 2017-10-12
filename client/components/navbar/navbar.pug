@@ -24,7 +24,7 @@ div#navbar-static-top.navbar
           p.navbar-text Hello {{ $ctrl.getCurrentUser().username }}
 
         li(ng-show='$ctrl.isLoggedIn()')
-          a(ui-sref='post')
+          a(ui-sref="post({id: ''})")
             span.glyphicon.glyphicon-plus
 
         li(ng-show='$ctrl.isLoggedIn()')

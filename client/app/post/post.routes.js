@@ -2,13 +2,17 @@
 import routes from './post.routes';
 
 export class PostComponent {
-  constructor(post, comments, $http, socket) {
+  constructor(post, comments, $http, socket, Auth, $state) {
     "ngInject";
     this.post = post;
     this.$http = $http;
-    this.isOwner = true;
+    this.currentUser = Auth.getCurrentUserSync();
+    this.isOwner = this.currentUser._id === post.user;
     this.socket = socket;
     this.comments = comments;
+    this.isEditing = !this.post._id;
+    this.isLoggedIn = Auth.isLoggedInSync;
+    this.$state = $state;
   }
 
  $onDestroy() {
@@ -23,32 +27,55 @@ export class PostComponent {
     this.isEditing = true;
   }
 
-  postComment(postId, content) {
-    this.$http.post(`/api/posts/${postId}/comments`, {
-      content: content
-    });
-    this.comments.content = '';
+  ownsComment(userId) {
+    return userId === this.currentUser._id;
+  }
+
+  removeComment(commentId) {
+    this.$http.delete(`/api/posts/${this.post._id}/comments/${commentId}`);
+  }
+
+  postComment() {
+    this.$http.post(`/api/posts/${this.post._id}/comments`, {
+      content: this.comment.content
+    }).then(()=> {
+      this.comment.content = '';
+    }); 
+  }
+
+  
+  updateComment(comment) {
+    this.$http.put(`/api/posts/${this.post._id}/comments/${comment._id}`, {
+      content: comment.content
+    }).then(()=> {
+      comment.editing = false;
+    }); 
   }
 
   upsertPost() {
     if(this.post.title && this.post.content) {
       let postFix = "";
+      let action = "post";
       if(this.post._id) {
         postFix = "/"+this.post._id;
+        action = "put"
       }
-      this.$http.put('/api/posts'+postFix, {
+      this.$http[action]('/api/posts'+postFix, {
         title: this.post.title,
         content: this.post.content
       }).then((response)=>{
         this.post = response.data;
         this.isEditing = false;
+        this.$state.go('post', {id: this.post._id}, {reload: true});
       });
 
     }
   }
 
   removePost(post) {
-    this.$http.delete(`/api/posts/${this.post._id}`);
+    this.$http.delete(`/api/posts/${this.post._id}`).then(()=>{
+      this.$state.go('main');
+    });
   }
 }
 
@@ -70,12 +97,16 @@ export default function($stateProvider) {
           });
         },
         comments: ($http, $stateParams)=> {
-          return $http.get('/api/posts/'+$stateParams.id+'/comments').then((response)=> {
-            return response.data;
-          },
-          (error)=> {
-            return null;
-          });
+          if($stateParams.id) {
+            return $http.get('/api/posts/'+$stateParams.id+'/comments').then((response)=> {
+              return response.data;
+            },
+            (error)=> {
+              return null;
+            });
+          } else {
+            return [];
+          }
         }
       }
     });

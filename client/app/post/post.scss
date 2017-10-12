@@ -25,10 +25,13 @@
     font-size: 28px;
     font-weight: bold;
   }
+  .action {
+    margin: 5px;
+  }
   .datetime {
-    float: right;
     font-style: italic;
     font-size: 12px;
+    width: 100%;
     font-family: Lora,'Times New Roman',serif;
   }
 }

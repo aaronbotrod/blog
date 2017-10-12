@@ -17,11 +17,29 @@ $fa-font-path: '/assets/fonts/font-awesome/';
   padding: 0.2em 0;
 }
 
+.app {
+  min-width: 550px;
+}
+header {
+  margin-bottom: 50px;
+}
+.width-100 {
+  width: 100%;
+}
 $aqua-color: #0085a1;
 
 .margin-md {
-  margin: 10px;
+  margin: 10px 0px;
 }
+
+.margin-left-sm {
+  margin-left: 5px;
+}
+
+.form-control {
+  height: auto;
+}
+
 ::selection { 
   background: $aqua-color; 
   color: white;
