@@ -501,6 +501,9 @@ gulp.task('revReplaceWebpack', function() {
 
 gulp.task('copy:extras', () => {
     return gulp.src([
+        `${clientPath}/favicon-16x16.png`,
+        `${clientPath}/favicon-32x32.png`,
+        `${clientPath}/favicon-180x180.png`,
         `${clientPath}/robots.txt`,
         `${clientPath}/.htaccess`
     ], { dot: true })
