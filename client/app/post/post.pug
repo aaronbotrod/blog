@@ -5,7 +5,6 @@ header#banner.banner-img
     .row
       .banner-title(data-ng-if="$ctrl.post._id")
         h1 {{$ctrl.post.title}}
-        h2 Posted by {{$ctrl.post.username}} on {{$ctrl.post.datetime | date}}
         p.meta Posted by {{$ctrl.post.username}} on {{$ctrl.post.datetime | date}}
       .banner-title(data-ng-if="!$ctrl.post._id")
         h1 New Post
@@ -22,29 +21,31 @@ header#banner.banner-img
       hr
 section.container(data-ng-if="!$ctrl.isEditing")
   .row
-    form.comment-form.center.col-lg-6.col-md-8
+      form.comment-form.center.col-lg-6.col-md-8(data-ng-if="$ctrl.isLoggedIn && !$ctrl.isEditing")
         h4 Add Comment
         text-angular(placeholder='Enter Comment', ng-model='$ctrl.comment.content')
         div
           button.margin-md.btn.btn-primary(type='submit', ng-click='$ctrl.postComment()') Submit
+      .comment-form.center.text-center.col-lg-6.col-md-8(data-ng-if="!$ctrl.isLoggedIn")
+        a(data-ui-sref="login")
+          h4 Must Be Logged In To Comment
   .row
     .comments.center.col-lg-6.col-md-8
-        .comment-container.zipper(data-ng-animate="'animate'" data-ng-repeat='comment in $ctrl.comments | orderBy:datetime:true')
-          .comment(data-ng-if="!comment.editing")
-            .delete.action.pull-right(data-ng-if="::$ctrl.ownsComment(comment.user)" data-ng-click="::$ctrl.removeComment(comment._id)")
-              span.glyphicon.glyphicon-remove
-            .edit.action.pull-right(data-ng-if="::$ctrl.ownsComment(comment.user)" data-ng-click="comment.editing = true")
-              span.glyphicon.glyphicon-edit
-            .username {{comment.username}}
-            .content(ng-bind-html="::comment.content")
-            .text-secondary.datetime
-              span(am-time-ago="comment.datetime")
-          .comment-editor.zipper(data-ng-if="comment.editing")
-            text-angular(ng-model='comment.content')
-            div
-              button.margin-md.btn.btn-primary(type='submit', ng-click='$ctrl.updateComment(comment)') Submit    
-              button.btn.btn-secondary.margin-left-sm(data-ng-click='comment.editing = false') Cancel    
-
+      .comment-container.zipper(data-ng-animate="'animate'" data-ng-repeat='comment in $ctrl.comments | orderBy:datetime:true')
+        .comment(data-ng-if="!comment.editing")
+          .delete.action.pull-right(data-ng-if="::$ctrl.ownsComment(comment.user)" data-ng-click="::$ctrl.removeComment(comment._id)")
+            span.glyphicon.glyphicon-remove
+          .edit.action.pull-right(data-ng-if="::$ctrl.ownsComment(comment.user)" data-ng-click="comment.editing = true")
+            span.glyphicon.glyphicon-edit
+          .username {{comment.username}}
+          .content(ng-bind-html="::comment.content")
+          .text-secondary.datetime
+            span(am-time-ago="comment.datetime")
+        .comment-editor.zipper(data-ng-if="comment.editing")
+          text-angular(ng-model='comment.content')
+          div
+            button.margin-md.btn.btn-primary(type='submit', ng-click='$ctrl.updateComment(comment)') Submit    
+            button.btn.btn-secondary.margin-left-sm(data-ng-click='comment.editing = false') Cancel
 form.container.post-form(data-ng-if="$ctrl.isEditing")
   .row
     .center.col-lg-6.col-md-8

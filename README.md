@@ -2,8 +2,8 @@
 
 ## Summary
 
-### Tools
-Decided to use angular-full-stack as a baseline project because it included boilerplate for:
+### Planning
+Decided to use angular-fullstack as a baseline project because it included boilerplate for:
 Authentication
 Data store configuration
 Front-end and Back-end application frameworks
@@ -11,16 +11,26 @@ Build configurations
 Boiler plate templates
 Deployment to Heroku Web Hosting
 
-Given that I chose angular-full-stack in the interest of time I decided to keep with the latest stable version instead of the beta version containing angular 2. I chose pug for being concise and because I'm already transpiling the application. I chose to use sass because of the expressiveness. I chose to include web sockets to give real time updates of blog posts. 
+Given that I chose angular-fullstack, in the interest of time I decided to keep with the latest stable version instead of the beta version containing angular 2. I chose pug and sass for having concise and expressive syntax. I chose to include web sockets to give real time updates of blog posts and comments. 
+
+I added wysiwyg text editors for comments and posts to allow for richer content. Provided a preview of the content to more closely match the mock blog. Added transitions to posts and comments to provide visual queues for the changing of state. 
 
 ### Improvements
 - SEO considerations Ex. Updating the title per page
-- Background image support the grid layout
+- Have the background image support the grid layout
 - Validations and blacklists for user generated content
 - Additional feedback for user interaction using animations and notifications
+- Return appropriate http response codes for errors
+- Follow CSS conventions such as BEM
+- Granular set of angular components
+- Better icon selection
+- Paging for comments and posts
+- Create and update test code
 
-### Thoughts
-My original decision to use angular fullstack tools 
+### Reflection
+My original decision to stick to angular-fullstack is set of tools became an issue when trying to immitate the example blog styles. Starting from the ground up with bootstrap 4 would have reduced the amount of new css rules used to match the mock blog. Which would have led to considerably shorter development time and cleaner css/html code. 
+
+I enjoyed getting the post/comment updates and animations to work based on real time events from the server.
 
 This project was generated with the [Angular Full-Stack Generator](https://github.com/DaftMonk/generator-angular-fullstack) version 4.2.2.
 
